@@ -1,13 +1,17 @@
 
 
 val set = mutableListOf<String>("A", "B", "C", "D")
-val result = set.map { v -> false }.toMutableList()
+val result = //set
+            (0..32)
+                .map { element -> false }.toMutableList()
+var subsetCount = 0
 
 
 fun generateSubsets(i: Int, lengthSubset:Int, countTrue:Int){
-    if(i == result.size){
+    if(i == result.size || countTrue == lengthSubset){
         if(countTrue == lengthSubset){
-            printSubset()
+//            printSubset()
+           subsetCount++
         }
         return
     }
@@ -29,5 +33,7 @@ fun printSubset() {
     }
     println(resultString)
 }
+
+
 
 
