@@ -1,19 +1,23 @@
 
 
-val set = mutableListOf<String>("A", "B", "C")
-val result = mutableListOf<Boolean>(false, false, false)
+val set = mutableListOf<String>("A", "B", "C", "D")
+val result = set.map { v -> false }.toMutableList()
 
-fun generateSubsets(i: Int){
+
+fun generateSubsets(i: Int, lengthSubset:Int, countTrue:Int){
     if(i == result.size){
-        printSubset()
+        if(countTrue == lengthSubset){
+            printSubset()
+        }
         return
     }
 
+
     result[i] = true
-    generateSubsets(i+1)
+    generateSubsets(i+1, lengthSubset, countTrue+1)
 
     result[i] = false
-    generateSubsets(i+1)
+    generateSubsets(i+1, lengthSubset, countTrue)
 }
 
 fun printSubset() {
