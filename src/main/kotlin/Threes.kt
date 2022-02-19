@@ -86,8 +86,10 @@ fun deleteDublicates(resultList: MutableList<List<Boolean>>):MutableList<List<Bo
         var isDublecate = false
         val rotations = getRotations(resultList[i])
         for (j in i+1..resultList.size-1){
-            if (resultList[i].toBooleanArray() contentEquals resultList[j].toBooleanArray()){
-                isDublecate = true
+            for (k in 0..rotations.size-1){
+                if (rotations[k].toBooleanArray() contentEquals resultList[j].toBooleanArray()){
+                    isDublecate = true
+                }
             }
         }
         if (!isDublecate) trueResultList.add(resultList[i])
@@ -100,8 +102,61 @@ fun getRotations(original: List<Boolean>): List<List<Boolean>> {
     return listOf(
         rotate90(original),
         rotate90(rotate90(original)),
-        rotate90(rotate90(rotate90(original)))
+        rotate90(rotate90(rotate90(original))),
+
+        mirrorH(original),
+        rotate90(mirrorH(original)),
+        rotate90(rotate90(mirrorH(original))),
+        rotate90(rotate90(rotate90(mirrorH(original)))),
+
+        mirrorY(original),
+        rotate90(mirrorY(original)),
+        rotate90(rotate90(mirrorY(original))),
+        rotate90(rotate90(rotate90(mirrorY(original)))),
+
+        mirrorH(mirrorY(original)),
+        rotate90(mirrorH(mirrorY(original))),
+        rotate90(rotate90(mirrorH(mirrorY(original)))),
+        rotate90(rotate90(rotate90(mirrorH(mirrorY(original))))),
     )
+}
+
+fun mirrorY(original: List<Boolean>): List<Boolean> {
+    val result = original.map { false }.toList().toMutableList()
+    for (i in 0..original.size-1){
+        if (original[i]){
+            result[mirrorCellV(i)] = original[i]
+        }
+    }
+    return result
+
+}
+
+fun mirrorCellV(i: Int): Int {
+    val (cx, cy) = getCenterCoords(i)
+    val (rcx, rcy) = Pair(cx, -cy)
+    val (zx, zy) = getZeroCoords(rcx, rcy)
+    val ri = zy * lengthSubset + zx
+    return ri
+}
+
+fun mirrorH(original: List<Boolean>): List<Boolean> {
+    val result = original.map { false }.toList().toMutableList()
+    for (i in 0..original.size-1){
+        if (original[i]){
+            result[mirrorCellH(i)] = original[i]
+        }
+    }
+    return result
+
+}
+
+fun mirrorCellH(i: Int): Int {
+    val (cx, cy) = getCenterCoords(i)
+    val (rcx, rcy) = Pair(-cx, cy)
+    val (zx, zy) = getZeroCoords(rcx, rcy)
+    val ri = zy * lengthSubset + zx
+    return ri
 }
 
 fun rotate90(original: List<Boolean>): List<Boolean> {
@@ -116,9 +171,18 @@ fun rotate90(original: List<Boolean>): List<Boolean> {
 
 fun rotateCell90(i: Int): Int {
     val (cx, cy) = getCenterCoords(i)
+    val (rcx, rcy) = Pair(cy, -cx)
+    val (zx, zy) = getZeroCoords(rcx, rcy)
+    val ri = zy * lengthSubset + zx
+    return ri
+}
 
-    return i //TODO()
-//    return getIndexFromCoodrs()
+fun getZeroCoords(rcx: Int, rcy: Int): Pair<Int, Int> {
+    var zeroX = if (rcx < 0) rcx + half
+    else rcx + half - 1
+    var zeroY = if (rcy < 0) rcy + half
+    else rcy + half - 1
+    return Pair(zeroX, zeroY)
 }
 
 fun getCenterCoords(i: Int): Pair<Int, Int> {

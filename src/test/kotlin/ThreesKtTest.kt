@@ -39,4 +39,17 @@ internal class ThreesKtTest {
         assertEquals(Pair(2, -2), getCenterCoords(3))
         assertEquals(Pair(-2, 2), getCenterCoords(12))
     }
+
+    @Test
+    fun getZeroCoords(){
+        lengthSubset = 4
+        half = lengthSubset / 2
+
+        assertEquals(Pair(1, 1), getZeroCoords(-1, -1))
+        assertEquals(Pair(1, 2), getZeroCoords(-1, 1))
+        assertEquals(Pair(2, 2), getZeroCoords(1, 1))
+        assertEquals(Pair(2, 1), getZeroCoords(1, -1))
+
+        assertEquals(Pair(3, 0), getZeroCoords(2, -2))
+    }
 }
