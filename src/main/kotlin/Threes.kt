@@ -5,6 +5,7 @@ val lengthSubset = 8
 val result = //set
             (0..63)
                 .map { element -> false }.toMutableList()
+val resultList:MutableList<List<Boolean>> = mutableListOf<List<Boolean>>()
 var subsetCount = 0
 
 
@@ -12,8 +13,9 @@ fun generateSubsets(i: Int, countTrue:Int){
     if (isBeat()) return
     if(i == result.size || countTrue == lengthSubset ){
         if(countTrue == lengthSubset){
-            printSubset()
-            subsetCount++
+//            printSubset()
+//            subsetCount++
+            resultList.add(result.toList())
         }
         return
     }
@@ -75,3 +77,19 @@ fun getX(index: Int):Int = index % lengthSubset
 fun getHeight(i: Int, j: Int) = abs(getY(i) - getY(j))
 
 fun getWidth(i: Int, j: Int) = abs(getX(i) - getX(j))
+
+
+fun deleteDublicates(resultList: MutableList<List<Boolean>>):MutableList<List<Boolean>>  {
+    var trueResultList:MutableList<List<Boolean>> = mutableListOf<List<Boolean>>()
+    for (i in 0..resultList.size-1){
+        var isDublecate = false
+        for (j in i+1..resultList.size-1){
+            if (resultList[i].toBooleanArray() contentEquals resultList[j].toBooleanArray()){
+                isDublecate = true
+            }
+        }
+        if (!isDublecate) trueResultList.add(resultList[i])
+    }
+
+    return trueResultList
+}
