@@ -23,4 +23,20 @@ internal class ThreesKtTest {
             rotateBoard.toBooleanArray()
         )
     }
+
+    @Test
+    fun getCenterCoords() {
+
+//        assertEquals(Pair(-1, -2), Pair(-1, -1))
+        lengthSubset = 4
+        half = lengthSubset / 2
+
+        assertEquals(Pair(-1, -1), getCenterCoords(5))
+        assertEquals(Pair(-1, 1), getCenterCoords(9))
+        assertEquals(Pair(1, 1), getCenterCoords(10))
+        assertEquals(Pair(1, -1), getCenterCoords(6))
+
+        assertEquals(Pair(2, -2), getCenterCoords(3))
+        assertEquals(Pair(-2, 2), getCenterCoords(12))
+    }
 }

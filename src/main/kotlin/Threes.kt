@@ -1,7 +1,8 @@
 import kotlin.math.abs
 
 val set = mutableListOf<String>("A", "B", "C", "D")
-val lengthSubset = 8
+var lengthSubset = 8
+var half = lengthSubset / 2
 val result = //set
             (0..63)
                 .map { element -> false }.toMutableList()
@@ -114,6 +115,23 @@ fun rotate90(original: List<Boolean>): List<Boolean> {
 }
 
 fun rotateCell90(i: Int): Int {
-    return i
+    val (cx, cy) = getCenterCoords(i)
+
+    return i //TODO()
+//    return getIndexFromCoodrs()
+}
+
+fun getCenterCoords(i: Int): Pair<Int, Int> {
+    val x = getX(i)
+    val y = getY(i)
+    var centerX = x - half
+    if (centerX >= 0)
+        centerX++
+    var centerY = y - half
+    if (centerY >= 0)
+        centerY++
+
+    return Pair(centerX, centerY)
+
 }
 
