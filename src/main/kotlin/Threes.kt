@@ -1,16 +1,17 @@
 import kotlin.math.abs
 
 val set = mutableListOf<String>("A", "B", "C", "D")
-val lengthSubset = 4
+val lengthSubset = 8
 val result = //set
-            (0..15)
+            (0..63)
                 .map { element -> false }.toMutableList()
 var subsetCount = 0
 
 
 fun generateSubsets(i: Int, countTrue:Int){
-    if(i == result.size || countTrue == lengthSubset){
-        if(countTrue == lengthSubset && !isBeat()){
+    if (isBeat()) return
+    if(i == result.size || countTrue == lengthSubset ){
+        if(countTrue == lengthSubset){
             printSubset()
             subsetCount++
         }
@@ -38,15 +39,16 @@ fun printSubset() {
 }
 
 fun isBeat():Boolean {
-    for (i in 0..15){
+    for (i in 0..result.size - 1 ){
         if (result[i]){
-            for (j in 0..15){
-                if (result[j] && i != j){
-                    return isHorizontalBeat(i, j)
+            for (j in i + 1..result.size - 1){
+                if (result[j]){
+                    if  (isHorizontalBeat(i, j)
                             ||
                             isVerticalBeat(i, j)
                             ||
-                            isDiagonalBeat(i, j)
+                            isDiagonalBeat(i, j))
+                        return true
                 }
             }
         }
@@ -55,15 +57,21 @@ fun isBeat():Boolean {
 }
 
 fun isHorizontalBeat(i:Int, j:Int):Boolean{
-    return i / 4 == j / 4
+    return getY(i) == getY(j)
 }
 
 fun isVerticalBeat(i:Int, j:Int):Boolean{
-    return i % 4 == j % 4
+    return getX(i) == getX(j)
 }
 
 fun isDiagonalBeat(i:Int, j:Int):Boolean{
-    return abs(i % 4 - j % 4) == abs(i / 4 - j / 4)
+    return getWidth(i, j) == getHeight(i, j)
 }
 
+fun getY(index:Int):Int = index / lengthSubset
 
+fun getX(index: Int):Int = index % lengthSubset
+
+fun getHeight(i: Int, j: Int) = abs(getY(i) - getY(j))
+
+fun getWidth(i: Int, j: Int) = abs(getX(i) - getX(j))
