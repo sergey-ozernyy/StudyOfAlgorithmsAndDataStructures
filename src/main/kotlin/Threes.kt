@@ -83,6 +83,7 @@ fun deleteDublicates(resultList: MutableList<List<Boolean>>):MutableList<List<Bo
     var trueResultList:MutableList<List<Boolean>> = mutableListOf<List<Boolean>>()
     for (i in 0..resultList.size-1){
         var isDublecate = false
+        val rotations = getRotations(resultList[i])
         for (j in i+1..resultList.size-1){
             if (resultList[i].toBooleanArray() contentEquals resultList[j].toBooleanArray()){
                 isDublecate = true
@@ -93,3 +94,26 @@ fun deleteDublicates(resultList: MutableList<List<Boolean>>):MutableList<List<Bo
 
     return trueResultList
 }
+
+fun getRotations(original: List<Boolean>): List<List<Boolean>> {
+    return listOf(
+        rotate90(original),
+        rotate90(rotate90(original)),
+        rotate90(rotate90(rotate90(original)))
+    )
+}
+
+fun rotate90(original: List<Boolean>): List<Boolean> {
+    val result = original.map { false }.toList().toMutableList()
+    for (i in 0..original.size-1){
+        if (original[i]){
+            result[rotateCell90(i)] = original[i]
+        }
+    }
+    return result
+}
+
+fun rotateCell90(i: Int): Int {
+    return i
+}
+
