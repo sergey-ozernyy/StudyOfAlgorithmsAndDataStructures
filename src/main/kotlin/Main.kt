@@ -6,7 +6,7 @@ fun main(args: Array<String>) {
 //    }
 //    println(uniqueResult.size)
 
-    generatePermutations(lenght = 3, 0)
+    generatePermutations(lenght = 4, 0)
 }
 
 
