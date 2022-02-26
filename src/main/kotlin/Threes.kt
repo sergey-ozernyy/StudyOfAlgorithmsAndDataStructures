@@ -119,24 +119,24 @@ fun getRotations(original: List<Boolean>): List<List<Boolean>> {
         rotate90(rotate90(original)),
         rotate90(rotate90(rotate90(original))),
 
-        mirrorH(original),
-        rotate90(mirrorH(original)),
-        rotate90(rotate90(mirrorH(original))),
-        rotate90(rotate90(rotate90(mirrorH(original)))),
+        mirrorHorizontal(original),
+        rotate90(mirrorHorizontal(original)),
+        rotate90(rotate90(mirrorHorizontal(original))),
+        rotate90(rotate90(rotate90(mirrorHorizontal(original)))),
 
-        mirrorY(original),
-        rotate90(mirrorY(original)),
-        rotate90(rotate90(mirrorY(original))),
-        rotate90(rotate90(rotate90(mirrorY(original)))),
+        mirrorVertical(original),
+        rotate90(mirrorVertical(original)),
+        rotate90(rotate90(mirrorVertical(original))),
+        rotate90(rotate90(rotate90(mirrorVertical(original)))),
 
-        mirrorH(mirrorY(original)),
-        rotate90(mirrorH(mirrorY(original))),
-        rotate90(rotate90(mirrorH(mirrorY(original)))),
-        rotate90(rotate90(rotate90(mirrorH(mirrorY(original))))),
+        mirrorHorizontal(mirrorVertical(original)),
+        rotate90(mirrorHorizontal(mirrorVertical(original))),
+        rotate90(rotate90(mirrorHorizontal(mirrorVertical(original)))),
+        rotate90(rotate90(rotate90(mirrorHorizontal(mirrorVertical(original))))),
     )
 }
 
-fun mirrorH(original: List<Boolean>): List<Boolean> {
+fun mirrorHorizontal(original: List<Boolean>): List<Boolean> {
     val result = original.map { false }.toList().toMutableList()
     for (i in 0..original.size-1){
         if (original[i]){
@@ -144,10 +144,9 @@ fun mirrorH(original: List<Boolean>): List<Boolean> {
         }
     }
     return result
-
 }
 
-fun mirrorY(original: List<Boolean>): List<Boolean> {
+fun mirrorVertical(original: List<Boolean>): List<Boolean> {
     val result = original.map { false }.toList().toMutableList()
     for (i in 0..original.size-1){
         if (original[i]){
@@ -155,7 +154,21 @@ fun mirrorY(original: List<Boolean>): List<Boolean> {
         }
     }
     return result
+}
 
+fun mirror(original: List<Boolean>, horizontal:Boolean): List<Boolean> {
+    val result = original.map { false }.toList().toMutableList()
+    for (i in 0..original.size-1){
+        if (original[i]){
+            var targetIndex: Int = if (horizontal){
+                mirrorCellH(i)
+            } else {
+                mirrorCellV(i)
+            }
+            result[targetIndex] = original[i]
+        }
+    }
+    return result
 }
 
 fun mirrorCellV(i: Int): Int {

@@ -3,7 +3,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class ThreesKtTest {
-
     @Test
     fun rotate90() {
         // Arrange
@@ -59,7 +58,7 @@ internal class ThreesKtTest {
     }
 
     @Test
-    fun mirrorH() {
+    fun mirrorHorizontal() {
         // Arrange
         val size = 2
         val totalCellsCount = size * size
@@ -69,11 +68,51 @@ internal class ThreesKtTest {
         putQueen(originalBoard, 3)
 
         // Act
-        val mirroredBoard = mirrorH(originalBoard)
+        val mirroredBoard = mirror(originalBoard, true)
 
         val expectedBoard = createBoard(totalCellsCount)
         // Assert
         putQueen(expectedBoard, 2)
+
+        assertArrayEquals(expectedBoard.toBooleanArray(), mirroredBoard.toBooleanArray())
+    }
+
+    @Test
+    fun mirrorVertical() {
+        // Arrange
+        val size = 2
+        val totalCellsCount = size * size
+        setBoardSize(size)
+
+        val originalBoard = createBoard(totalCellsCount)
+        putQueen(originalBoard, 3)
+
+        // Act
+        val mirroredBoard = mirror(originalBoard, false)
+
+        val expectedBoard = createBoard(totalCellsCount)
+        // Assert
+        putQueen(expectedBoard, 1)
+
+        assertArrayEquals(expectedBoard.toBooleanArray(), mirroredBoard.toBooleanArray())
+    }
+
+    @Test
+    fun mirror() {
+        // Arrange
+        val size = 2
+        val totalCellsCount = size * size
+        setBoardSize(size)
+
+        val originalBoard = createBoard(totalCellsCount)
+        putQueen(originalBoard, 3)
+
+        // Act
+        val mirroredBoard = mirror(originalBoard, false)
+
+        val expectedBoard = createBoard(totalCellsCount)
+        // Assert
+        putQueen(expectedBoard, 1)
 
         assertArrayEquals(expectedBoard.toBooleanArray(), mirroredBoard.toBooleanArray())
     }
