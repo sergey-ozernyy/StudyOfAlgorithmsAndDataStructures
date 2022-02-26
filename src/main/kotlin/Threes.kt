@@ -1,19 +1,34 @@
 import kotlin.math.abs
 
 val set = mutableListOf<String>("A", "B", "C", "D")
-var lengthSubset = 8
-var half = lengthSubset / 2
-val result = //set
-            (0..63)
-                .map { element -> false }.toMutableList()
+
+var N = 8
+var half = N / 2
+var result: MutableList<Boolean> = mutableListOf()
+
+/**
+ * Задает размер доски и инициализирует вспомогательные переменные.
+ * @param size Ширина или высота доски, например 8 для доски с 64 клетками.
+ */
+fun setBoardSize(size:Int){
+    N = size
+    half = N / 2
+    result = createBoard(N * N)
+
+}
+
+fun createBoard(totalCellsCount: Int) = (1..totalCellsCount)
+    .map { element -> false }.toMutableList()
+
+
 val resultList:MutableList<List<Boolean>> = mutableListOf<List<Boolean>>()
 var subsetCount = 0
 
 
 fun generateSubsets(i: Int, countTrue:Int){
     if (isBeat()) return
-    if(i == result.size || countTrue == lengthSubset ){
-        if(countTrue == lengthSubset){
+    if(i == result.size || countTrue == N ){
+        if(countTrue == N){
 //            printSubset()
 //            subsetCount++
             resultList.add(result.toList())
@@ -71,9 +86,9 @@ fun isDiagonalBeat(i:Int, j:Int):Boolean{
     return getWidth(i, j) == getHeight(i, j)
 }
 
-fun getY(index:Int):Int = index / lengthSubset
+fun getY(index:Int):Int = index / N
 
-fun getX(index: Int):Int = index % lengthSubset
+fun getX(index: Int):Int = index % N
 
 fun getHeight(i: Int, j: Int) = abs(getY(i) - getY(j))
 
@@ -121,6 +136,17 @@ fun getRotations(original: List<Boolean>): List<List<Boolean>> {
     )
 }
 
+fun mirrorH(original: List<Boolean>): List<Boolean> {
+    val result = original.map { false }.toList().toMutableList()
+    for (i in 0..original.size-1){
+        if (original[i]){
+            result[mirrorCellH(i)] = original[i]
+        }
+    }
+    return result
+
+}
+
 fun mirrorY(original: List<Boolean>): List<Boolean> {
     val result = original.map { false }.toList().toMutableList()
     for (i in 0..original.size-1){
@@ -136,26 +162,15 @@ fun mirrorCellV(i: Int): Int {
     val (cx, cy) = getCenterCoords(i)
     val (rcx, rcy) = Pair(cx, -cy)
     val (zx, zy) = getZeroCoords(rcx, rcy)
-    val ri = zy * lengthSubset + zx
+    val ri = zy * N + zx
     return ri
-}
-
-fun mirrorH(original: List<Boolean>): List<Boolean> {
-    val result = original.map { false }.toList().toMutableList()
-    for (i in 0..original.size-1){
-        if (original[i]){
-            result[mirrorCellH(i)] = original[i]
-        }
-    }
-    return result
-
 }
 
 fun mirrorCellH(i: Int): Int {
     val (cx, cy) = getCenterCoords(i)
     val (rcx, rcy) = Pair(-cx, cy)
     val (zx, zy) = getZeroCoords(rcx, rcy)
-    val ri = zy * lengthSubset + zx
+    val ri = zy * N + zx
     return ri
 }
 
@@ -173,7 +188,7 @@ fun rotateCell90(i: Int): Int {
     val (cx, cy) = getCenterCoords(i)
     val (rcx, rcy) = Pair(cy, -cx)
     val (zx, zy) = getZeroCoords(rcx, rcy)
-    val ri = zy * lengthSubset + zx
+    val ri = zy * N + zx
     return ri
 }
 

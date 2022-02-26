@@ -1,35 +1,38 @@
+import org.junit.jupiter.api.Assertions.assertArrayEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 
 internal class ThreesKtTest {
 
     @Test
     fun rotate90() {
-        val originalBoard = (0..63)
-            .map { element -> false }.toMutableList()
-        originalBoard[50] = true
+        // Arrange
+        val size = 8
+        val totalCellsCount = size * size
+        setBoardSize(size)
 
-        val expectedBoard = (0..63)
-            .map { element -> false }.toMutableList()
-        expectedBoard[46] = true
+        val originalBoard = createBoard(totalCellsCount)
+        putQueen(originalBoard, 50)
 
+        val expectedBoard = createBoard(totalCellsCount)
+        putQueen(expectedBoard, 46)
 
+        // Act
         val rotateBoard = rotate90(originalBoard)
 
-
+        // Assert
         assertArrayEquals(
-            expectedBoard.toBooleanArray(),
-            rotateBoard.toBooleanArray()
+            expectedBoard.toBooleanArray(), rotateBoard.toBooleanArray()
         )
     }
 
     @Test
     fun getCenterCoords() {
+        // Arrange
 
-//        assertEquals(Pair(-1, -2), Pair(-1, -1))
-        lengthSubset = 4
-        half = lengthSubset / 2
+        setBoardSize(4)
+
+        // Act and Assert
 
         assertEquals(Pair(-1, -1), getCenterCoords(5))
         assertEquals(Pair(-1, 1), getCenterCoords(9))
@@ -41,9 +44,11 @@ internal class ThreesKtTest {
     }
 
     @Test
-    fun getZeroCoords(){
-        lengthSubset = 4
-        half = lengthSubset / 2
+    fun getZeroCoords() {
+        // Arrange
+        setBoardSize(4)
+
+        // Act and Assert
 
         assertEquals(Pair(1, 1), getZeroCoords(-1, -1))
         assertEquals(Pair(1, 2), getZeroCoords(-1, 1))
@@ -51,5 +56,29 @@ internal class ThreesKtTest {
         assertEquals(Pair(2, 1), getZeroCoords(1, -1))
 
         assertEquals(Pair(3, 0), getZeroCoords(2, -2))
+    }
+
+    @Test
+    fun mirrorH() {
+        // Arrange
+        val size = 2
+        val totalCellsCount = size * size
+        setBoardSize(size)
+
+        val originalBoard = createBoard(totalCellsCount)
+        putQueen(originalBoard, 3)
+
+        // Act
+        val mirroredBoard = mirrorH(originalBoard)
+
+        val expectedBoard = createBoard(totalCellsCount)
+        // Assert
+        putQueen(expectedBoard, 2)
+
+        assertArrayEquals(expectedBoard.toBooleanArray(), mirroredBoard.toBooleanArray())
+    }
+
+    private fun putQueen(originalBoard: MutableList<Boolean>, index: Int) {
+        originalBoard[index] = true
     }
 }
