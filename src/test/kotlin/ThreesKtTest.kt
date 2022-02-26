@@ -68,7 +68,7 @@ internal class ThreesKtTest {
         putQueen(originalBoard, 3)
 
         // Act
-        val mirroredBoard = mirror(originalBoard, true)
+        val mirroredBoard = mirrorHorizontal(originalBoard)
 
         val expectedBoard = createBoard(totalCellsCount)
         // Assert
@@ -88,7 +88,7 @@ internal class ThreesKtTest {
         putQueen(originalBoard, 3)
 
         // Act
-        val mirroredBoard = mirror(originalBoard, false)
+        val mirroredBoard = mirrorVertical(originalBoard)
 
         val expectedBoard = createBoard(totalCellsCount)
         // Assert
