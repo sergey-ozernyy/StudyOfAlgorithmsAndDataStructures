@@ -17,7 +17,7 @@ internal class ThreesKtTest {
         putQueen(expectedBoard, 46)
 
         // Act
-        val rotateBoard = rotateBoard90(originalBoard)
+        val rotateBoard = transformBoard(originalBoard, rotateCount = 1)
 
         // Assert
         assertArrayEquals(
@@ -68,7 +68,7 @@ internal class ThreesKtTest {
         putQueen(originalBoard, 3)
 
         // Act
-        val mirroredBoard = mirrorBoardAxisY(originalBoard)
+        val mirroredBoard = transformBoard(originalBoard, mirrorAxisY = true)
 
         val expectedBoard = createBoard(totalCellsCount)
         // Assert
@@ -88,27 +88,7 @@ internal class ThreesKtTest {
         putQueen(originalBoard, 3)
 
         // Act
-        val mirroredBoard = mirrorBoardAxisX(originalBoard)
-
-        val expectedBoard = createBoard(totalCellsCount)
-        // Assert
-        putQueen(expectedBoard, 1)
-
-        assertArrayEquals(expectedBoard.toBooleanArray(), mirroredBoard.toBooleanArray())
-    }
-
-    @Test
-    fun mirrorBoard() {
-        // Arrange
-        val size = 2
-        val totalCellsCount = size * size
-        setBoardSize(size)
-
-        val originalBoard = createBoard(totalCellsCount)
-        putQueen(originalBoard, 3)
-
-        // Act
-        val mirroredBoard = mirrorBoard(originalBoard, true)
+        val mirroredBoard = transformBoard(originalBoard, mirrorAxisX = true)
 
         val expectedBoard = createBoard(totalCellsCount)
         // Assert
@@ -123,7 +103,7 @@ internal class ThreesKtTest {
         setBoardSize(2)
 
         // Act and Assert
-        assertEquals(0, mirrorCell(1, false))
+        assertEquals(0, transformCell(1, mirrorAxisY = true))
     }
 
     @Test
@@ -132,7 +112,7 @@ internal class ThreesKtTest {
         setBoardSize(2)
 
         // Act and Assert
-        assertEquals(3, mirrorCell(1, true))
+        assertEquals(3, transformCell(1, mirrorAxisX = true))
     }
 
     @Test
@@ -141,7 +121,7 @@ internal class ThreesKtTest {
         setBoardSize(4)
 
         // Act and Assert
-        assertEquals(7, rotateCell90(14))
+        assertEquals(7, transformCell(14, 1))
     }
 
 

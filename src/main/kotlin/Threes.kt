@@ -96,7 +96,7 @@ fun deleteDublicates(resultList: MutableList<List<Boolean>>): MutableList<List<B
     var trueResultList: MutableList<List<Boolean>> = mutableListOf<List<Boolean>>()
     for (i in 0..resultList.size - 1) {
         var isDublecate = false
-        val rotations = getRotations(resultList[i])
+        val rotations = getSymmetricalBoards(resultList[i])
         for (j in i + 1..resultList.size - 1) {
             for (k in 0..rotations.size - 1) {
                 if (rotations[k].toBooleanArray() contentEquals resultList[j].toBooleanArray()) {
@@ -110,82 +110,66 @@ fun deleteDublicates(resultList: MutableList<List<Boolean>>): MutableList<List<B
     return trueResultList
 }
 
-fun getRotations(original: List<Boolean>): List<List<Boolean>> {
+fun getSymmetricalBoards(original: List<Boolean>): List<List<Boolean>> {
     return listOf(
         transformBoard(original, 1),
         transformBoard(original, 2),
         transformBoard(original, 3),
 
-        transformBoard(original, mirrorX = true),
-        transformBoard(original, mirrorX = true, rotateCount = 1),
-        transformBoard(original, mirrorX = true, rotateCount = 2),
-        transformBoard(original, mirrorX = true, rotateCount = 3),
+        transformBoard(original, mirrorAxisX = true),
+        transformBoard(original, mirrorAxisX = true, rotateCount = 1),
+        transformBoard(original, mirrorAxisX = true, rotateCount = 2),
+        transformBoard(original, mirrorAxisX = true, rotateCount = 3),
 
-        transformBoard(original, mirrorY = true),
-        transformBoard(original, mirrorY = true, rotateCount = 1),
-        transformBoard(original, mirrorY = true, rotateCount = 2),
-        transformBoard(original, mirrorY = true, rotateCount = 3),
+        transformBoard(original, mirrorAxisY = true),
+        transformBoard(original, mirrorAxisY = true, rotateCount = 1),
+        transformBoard(original, mirrorAxisY = true, rotateCount = 2),
+        transformBoard(original, mirrorAxisY = true, rotateCount = 3),
 
-        transformBoard(original, mirrorX = true, mirrorY = true),
-        transformBoard(original, mirrorX = true, mirrorY = true, rotateCount = 1),
-        transformBoard(original, mirrorX = true, mirrorY = true, rotateCount = 2),
-        transformBoard(original, mirrorX = true, mirrorY = true, rotateCount = 3),
+        transformBoard(original, mirrorAxisX = true, mirrorAxisY = true),
+        transformBoard(original, mirrorAxisX = true, mirrorAxisY = true, rotateCount = 1),
+        transformBoard(original, mirrorAxisX = true, mirrorAxisY = true, rotateCount = 2),
+        transformBoard(original, mirrorAxisX = true, mirrorAxisY = true, rotateCount = 3),
         )
 }
 
 fun transformBoard(
     original: List<Boolean>,
     rotateCount: Int = 0,
-    mirrorX: Boolean = false,
-    mirrorY: Boolean = false
+    mirrorAxisX: Boolean = false,
+    mirrorAxisY: Boolean = false
 ): List<Boolean> {
-
-}
-
-fun mirrorBoardAxisY(original: List<Boolean>): List<Boolean> {
-    return mirrorBoard(original, false)
-}
-
-fun mirrorBoardAxisX(original: List<Boolean>): List<Boolean> {
-    return mirrorBoard(original, true)
-}
-
-fun mirrorBoard(original: List<Boolean>, axisX: Boolean): List<Boolean> {
     val result = original.map { false }.toList().toMutableList()
     for (i in 0..original.size - 1) {
         if (original[i]) {
-            var targetIndex: Int = mirrorCell(i, axisX)
+            var targetIndex: Int = transformCell(i, rotateCount, mirrorAxisX, mirrorAxisY)
             result[targetIndex] = original[i]
         }
     }
     return result
 }
 
-fun rotateBoard90(original: List<Boolean>): List<Boolean> {
-    val result = original.map { false }.toList().toMutableList()
-    for (i in 0..original.size - 1) {
-        if (original[i]) {
-            result[rotateCell90(i)] = original[i]
-        }
-    }
-    return result
-}
-
-fun mirrorCell(i: Int, axisX: Boolean): Int {
+fun transformCell(i: Int,
+                  rotateCount: Int = 0,
+                  mirrorAxisX: Boolean = false,
+                  mirrorAxisY: Boolean = false): Int {
     val (cx, cy) = getCenterCoords(i)
-    val (rcx, rcy) = if (axisX) {
-        Pair(cx, -cy)
-    } else {
-        Pair(-cx, cy)
-    }
-    val (zx, zy) = getZeroCoords(rcx, rcy)
-    val ri = zy * N + zx
-    return ri
-}
+    var rcx:Int = cx
+    var rcy:Int = cy
 
-fun rotateCell90(i: Int): Int {
-    val (cx, cy) = getCenterCoords(i)
-    val (rcx, rcy) = Pair(cy, -cx)
+    if (mirrorAxisX) {
+        rcx = rcx
+        rcy = -rcy
+    }
+    if (mirrorAxisY){
+        rcx = -rcx
+        rcy = rcy
+    }
+    for (i in 1..rotateCount){
+        val p = Pair(rcy, -rcx)
+        rcx = p.first
+        rcy = p.second
+    }
     val (zx, zy) = getZeroCoords(rcx, rcy)
     val ri = zy * N + zx
     return ri
