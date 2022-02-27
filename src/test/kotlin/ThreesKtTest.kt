@@ -117,6 +117,33 @@ internal class ThreesKtTest {
         assertArrayEquals(expectedBoard.toBooleanArray(), mirroredBoard.toBooleanArray())
     }
 
+    @Test
+    fun mirrorCellAxisY(){
+        // Arrange
+        setBoardSize(2)
+
+        // Act and Assert
+        assertEquals(0, mirrorCellAxisY(1))
+    }
+
+    @Test
+    fun mirrorCellAxisX(){
+        // Arrange
+        setBoardSize(2)
+
+        // Act and Assert
+        assertEquals(3, mirrorCellAxisX(1))
+    }
+
+    @Test
+    fun rotateCell90(){
+        // Arrange
+        setBoardSize(4)
+
+        // Act and Assert
+        assertEquals(7, rotateCell90(14))
+    }
+
     private fun putQueen(originalBoard: MutableList<Boolean>, index: Int) {
         originalBoard[index] = true
     }

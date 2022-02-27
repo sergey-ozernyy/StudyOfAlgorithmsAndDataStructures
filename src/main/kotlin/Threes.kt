@@ -11,6 +11,9 @@ var result: MutableList<Boolean> = mutableListOf()
  * @param size Ширина или высота доски, например 8 для доски с 64 клетками.
  */
 fun setBoardSize(size:Int){
+    if (size % 2 != 0) {
+        throw Exception("Длина и ширина доски должны быть кратны 2")
+    }
     N = size
     half = N / 2
     result = createBoard(N * N)
@@ -149,9 +152,9 @@ fun mirror(original: List<Boolean>, horizontal:Boolean): List<Boolean> {
     for (i in 0..original.size-1){
         if (original[i]){
             var targetIndex: Int = if (horizontal){
-                mirrorCellH(i)
+                mirrorCellAxisY(i)
             } else {
-                mirrorCellV(i)
+                mirrorCellAxisX(i)
             }
             result[targetIndex] = original[i]
         }
@@ -159,7 +162,7 @@ fun mirror(original: List<Boolean>, horizontal:Boolean): List<Boolean> {
     return result
 }
 
-fun mirrorCellV(i: Int): Int {
+fun mirrorCellAxisX(i: Int): Int {
     val (cx, cy) = getCenterCoords(i)
     val (rcx, rcy) = Pair(cx, -cy)
     val (zx, zy) = getZeroCoords(rcx, rcy)
@@ -167,9 +170,17 @@ fun mirrorCellV(i: Int): Int {
     return ri
 }
 
-fun mirrorCellH(i: Int): Int {
+fun mirrorCellAxisY(i: Int): Int {
     val (cx, cy) = getCenterCoords(i)
     val (rcx, rcy) = Pair(-cx, cy)
+    val (zx, zy) = getZeroCoords(rcx, rcy)
+    val ri = zy * N + zx
+    return ri
+}
+
+fun rotateCell90(i: Int): Int {
+    val (cx, cy) = getCenterCoords(i)
+    val (rcx, rcy) = Pair(cy, -cx)
     val (zx, zy) = getZeroCoords(rcx, rcy)
     val ri = zy * N + zx
     return ri
@@ -183,14 +194,6 @@ fun rotate90(original: List<Boolean>): List<Boolean> {
         }
     }
     return result
-}
-
-fun rotateCell90(i: Int): Int {
-    val (cx, cy) = getCenterCoords(i)
-    val (rcx, rcy) = Pair(cy, -cx)
-    val (zx, zy) = getZeroCoords(rcx, rcy)
-    val ri = zy * N + zx
-    return ri
 }
 
 fun getZeroCoords(rcx: Int, rcy: Int): Pair<Int, Int> {
