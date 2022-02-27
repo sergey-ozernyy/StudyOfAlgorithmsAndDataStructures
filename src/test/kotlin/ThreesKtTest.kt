@@ -58,7 +58,7 @@ internal class ThreesKtTest {
     }
 
     @Test
-    fun mirrorHorizontal() {
+    fun mirrorBoardAxisY() {
         // Arrange
         val size = 2
         val totalCellsCount = size * size
@@ -68,7 +68,7 @@ internal class ThreesKtTest {
         putQueen(originalBoard, 3)
 
         // Act
-        val mirroredBoard = mirrorHorizontal(originalBoard)
+        val mirroredBoard = mirrorBoardAxisY(originalBoard)
 
         val expectedBoard = createBoard(totalCellsCount)
         // Assert
@@ -78,7 +78,7 @@ internal class ThreesKtTest {
     }
 
     @Test
-    fun mirrorVertical() {
+    fun mirrorBoardAxisX() {
         // Arrange
         val size = 2
         val totalCellsCount = size * size
@@ -88,7 +88,7 @@ internal class ThreesKtTest {
         putQueen(originalBoard, 3)
 
         // Act
-        val mirroredBoard = mirrorVertical(originalBoard)
+        val mirroredBoard = mirrorBoardAxisX(originalBoard)
 
         val expectedBoard = createBoard(totalCellsCount)
         // Assert
@@ -98,7 +98,7 @@ internal class ThreesKtTest {
     }
 
     @Test
-    fun mirror() {
+    fun mirrorBoard() {
         // Arrange
         val size = 2
         val totalCellsCount = size * size
@@ -108,7 +108,7 @@ internal class ThreesKtTest {
         putQueen(originalBoard, 3)
 
         // Act
-        val mirroredBoard = mirror(originalBoard, false)
+        val mirroredBoard = mirrorBoard(originalBoard, true)
 
         val expectedBoard = createBoard(totalCellsCount)
         // Assert
@@ -123,7 +123,7 @@ internal class ThreesKtTest {
         setBoardSize(2)
 
         // Act and Assert
-        assertEquals(0, mirrorCellAxisY(1))
+        assertEquals(0, mirrorCell(1, false))
     }
 
     @Test
@@ -132,7 +132,7 @@ internal class ThreesKtTest {
         setBoardSize(2)
 
         // Act and Assert
-        assertEquals(3, mirrorCellAxisX(1))
+        assertEquals(3, mirrorCell(1, true))
     }
 
     @Test
@@ -143,6 +143,7 @@ internal class ThreesKtTest {
         // Act and Assert
         assertEquals(7, rotateCell90(14))
     }
+
 
     private fun putQueen(originalBoard: MutableList<Boolean>, index: Int) {
         originalBoard[index] = true

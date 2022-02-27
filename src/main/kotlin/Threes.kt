@@ -10,7 +10,7 @@ var result: MutableList<Boolean> = mutableListOf()
  * Задает размер доски и инициализирует вспомогательные переменные.
  * @param size Ширина или высота доски, например 8 для доски с 64 клетками.
  */
-fun setBoardSize(size:Int){
+fun setBoardSize(size: Int) {
     if (size % 2 != 0) {
         throw Exception("Длина и ширина доски должны быть кратны 2")
     }
@@ -20,18 +20,17 @@ fun setBoardSize(size:Int){
 
 }
 
-fun createBoard(totalCellsCount: Int) = (1..totalCellsCount)
-    .map { element -> false }.toMutableList()
+fun createBoard(totalCellsCount: Int) = (1..totalCellsCount).map { element -> false }.toMutableList()
 
 
-val resultList:MutableList<List<Boolean>> = mutableListOf<List<Boolean>>()
+val resultList: MutableList<List<Boolean>> = mutableListOf<List<Boolean>>()
 var subsetCount = 0
 
 
-fun generateSubsets(i: Int, countTrue:Int){
+fun generateSubsets(i: Int, countTrue: Int) {
     if (isBeat()) return
-    if(i == result.size || countTrue == N ){
-        if(countTrue == N){
+    if (i == result.size || countTrue == N) {
+        if (countTrue == N) {
 //            printSubset()
 //            subsetCount++
             resultList.add(result.toList())
@@ -41,16 +40,16 @@ fun generateSubsets(i: Int, countTrue:Int){
 
 
     result[i] = true
-    generateSubsets(i+1, countTrue+1)
+    generateSubsets(i + 1, countTrue + 1)
 
     result[i] = false
-    generateSubsets(i+1, countTrue)
+    generateSubsets(i + 1, countTrue)
 }
 
 fun printSubset() {
     var resultString = ""
     result.forEachIndexed { i, v ->
-        if(i % 4 == 0){
+        if (i % 4 == 0) {
             resultString += "\n"
         }
         resultString += v
@@ -59,17 +58,12 @@ fun printSubset() {
     println(resultString)
 }
 
-fun isBeat():Boolean {
-    for (i in 0..result.size - 1 ){
-        if (result[i]){
-            for (j in i + 1..result.size - 1){
-                if (result[j]){
-                    if  (isHorizontalBeat(i, j)
-                            ||
-                            isVerticalBeat(i, j)
-                            ||
-                            isDiagonalBeat(i, j))
-                        return true
+fun isBeat(): Boolean {
+    for (i in 0..result.size - 1) {
+        if (result[i]) {
+            for (j in i + 1..result.size - 1) {
+                if (result[j]) {
+                    if (isHorizontalBeat(i, j) || isVerticalBeat(i, j) || isDiagonalBeat(i, j)) return true
                 }
             }
         }
@@ -77,35 +71,35 @@ fun isBeat():Boolean {
     return false
 }
 
-fun isHorizontalBeat(i:Int, j:Int):Boolean{
+fun isHorizontalBeat(i: Int, j: Int): Boolean {
     return getY(i) == getY(j)
 }
 
-fun isVerticalBeat(i:Int, j:Int):Boolean{
+fun isVerticalBeat(i: Int, j: Int): Boolean {
     return getX(i) == getX(j)
 }
 
-fun isDiagonalBeat(i:Int, j:Int):Boolean{
+fun isDiagonalBeat(i: Int, j: Int): Boolean {
     return getWidth(i, j) == getHeight(i, j)
 }
 
-fun getY(index:Int):Int = index / N
+fun getY(index: Int): Int = index / N
 
-fun getX(index: Int):Int = index % N
+fun getX(index: Int): Int = index % N
 
 fun getHeight(i: Int, j: Int) = abs(getY(i) - getY(j))
 
 fun getWidth(i: Int, j: Int) = abs(getX(i) - getX(j))
 
 
-fun deleteDublicates(resultList: MutableList<List<Boolean>>):MutableList<List<Boolean>>  {
-    var trueResultList:MutableList<List<Boolean>> = mutableListOf<List<Boolean>>()
-    for (i in 0..resultList.size-1){
+fun deleteDublicates(resultList: MutableList<List<Boolean>>): MutableList<List<Boolean>> {
+    var trueResultList: MutableList<List<Boolean>> = mutableListOf<List<Boolean>>()
+    for (i in 0..resultList.size - 1) {
         var isDublecate = false
         val rotations = getRotations(resultList[i])
-        for (j in i+1..resultList.size-1){
-            for (k in 0..rotations.size-1){
-                if (rotations[k].toBooleanArray() contentEquals resultList[j].toBooleanArray()){
+        for (j in i + 1..resultList.size - 1) {
+            for (k in 0..rotations.size - 1) {
+                if (rotations[k].toBooleanArray() contentEquals resultList[j].toBooleanArray()) {
                     isDublecate = true
                 }
             }
@@ -122,57 +116,49 @@ fun getRotations(original: List<Boolean>): List<List<Boolean>> {
         rotate90(rotate90(original)),
         rotate90(rotate90(rotate90(original))),
 
-        mirrorHorizontal(original),
-        rotate90(mirrorHorizontal(original)),
-        rotate90(rotate90(mirrorHorizontal(original))),
-        rotate90(rotate90(rotate90(mirrorHorizontal(original)))),
+        mirrorBoardAxisY(original),
+        rotate90(mirrorBoardAxisY(original)),
+        rotate90(rotate90(mirrorBoardAxisY(original))),
+        rotate90(rotate90(rotate90(mirrorBoardAxisY(original)))),
 
-        mirrorVertical(original),
-        rotate90(mirrorVertical(original)),
-        rotate90(rotate90(mirrorVertical(original))),
-        rotate90(rotate90(rotate90(mirrorVertical(original)))),
+        mirrorBoardAxisX(original),
+        rotate90(mirrorBoardAxisX(original)),
+        rotate90(rotate90(mirrorBoardAxisX(original))),
+        rotate90(rotate90(rotate90(mirrorBoardAxisX(original)))),
 
-        mirrorHorizontal(mirrorVertical(original)),
-        rotate90(mirrorHorizontal(mirrorVertical(original))),
-        rotate90(rotate90(mirrorHorizontal(mirrorVertical(original)))),
-        rotate90(rotate90(rotate90(mirrorHorizontal(mirrorVertical(original))))),
+        mirrorBoardAxisY(mirrorBoardAxisX(original)),
+        rotate90(mirrorBoardAxisY(mirrorBoardAxisX(original))),
+        rotate90(rotate90(mirrorBoardAxisY(mirrorBoardAxisX(original)))),
+        rotate90(rotate90(rotate90(mirrorBoardAxisY(mirrorBoardAxisX(original))))),
     )
 }
 
-fun mirrorHorizontal(original: List<Boolean>): List<Boolean> {
-    return mirror(original, true)
+fun mirrorBoardAxisY(original: List<Boolean>): List<Boolean> {
+    return mirrorBoard(original, false)
 }
 
-fun mirrorVertical(original: List<Boolean>): List<Boolean> {
-    return mirror(original, false)
+fun mirrorBoardAxisX(original: List<Boolean>): List<Boolean> {
+    return mirrorBoard(original, true)
 }
 
-fun mirror(original: List<Boolean>, horizontal:Boolean): List<Boolean> {
+fun mirrorBoard(original: List<Boolean>, axisX: Boolean): List<Boolean> {
     val result = original.map { false }.toList().toMutableList()
-    for (i in 0..original.size-1){
-        if (original[i]){
-            var targetIndex: Int = if (horizontal){
-                mirrorCellAxisY(i)
-            } else {
-                mirrorCellAxisX(i)
-            }
+    for (i in 0..original.size - 1) {
+        if (original[i]) {
+            var targetIndex: Int = mirrorCell(i, axisX)
             result[targetIndex] = original[i]
         }
     }
     return result
 }
 
-fun mirrorCellAxisX(i: Int): Int {
+fun mirrorCell(i: Int, axisX: Boolean): Int {
     val (cx, cy) = getCenterCoords(i)
-    val (rcx, rcy) = Pair(cx, -cy)
-    val (zx, zy) = getZeroCoords(rcx, rcy)
-    val ri = zy * N + zx
-    return ri
-}
-
-fun mirrorCellAxisY(i: Int): Int {
-    val (cx, cy) = getCenterCoords(i)
-    val (rcx, rcy) = Pair(-cx, cy)
+    val (rcx, rcy) = if (axisX) {
+        Pair(cx, -cy)
+    } else {
+        Pair(-cx, cy)
+    }
     val (zx, zy) = getZeroCoords(rcx, rcy)
     val ri = zy * N + zx
     return ri
@@ -188,8 +174,8 @@ fun rotateCell90(i: Int): Int {
 
 fun rotate90(original: List<Boolean>): List<Boolean> {
     val result = original.map { false }.toList().toMutableList()
-    for (i in 0..original.size-1){
-        if (original[i]){
+    for (i in 0..original.size - 1) {
+        if (original[i]) {
             result[rotateCell90(i)] = original[i]
         }
     }
@@ -208,11 +194,9 @@ fun getCenterCoords(i: Int): Pair<Int, Int> {
     val x = getX(i)
     val y = getY(i)
     var centerX = x - half
-    if (centerX >= 0)
-        centerX++
+    if (centerX >= 0) centerX++
     var centerY = y - half
-    if (centerY >= 0)
-        centerY++
+    if (centerY >= 0) centerY++
 
     return Pair(centerX, centerY)
 
