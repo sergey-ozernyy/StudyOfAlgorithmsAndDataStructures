@@ -111,26 +111,12 @@ fun deleteDublicates(resultList: MutableList<List<Boolean>>): MutableList<List<B
 }
 
 fun getSymmetricalBoards(original: List<Boolean>): List<List<Boolean>> {
-    return listOf(
-        transformBoard(original, 1),
-        transformBoard(original, 2),
-        transformBoard(original, 3),
-
-        transformBoard(original, mirrorAxisX = true),
-        transformBoard(original, mirrorAxisX = true, rotateCount = 1),
-        transformBoard(original, mirrorAxisX = true, rotateCount = 2),
-        transformBoard(original, mirrorAxisX = true, rotateCount = 3),
-
-        transformBoard(original, mirrorAxisY = true),
-        transformBoard(original, mirrorAxisY = true, rotateCount = 1),
-        transformBoard(original, mirrorAxisY = true, rotateCount = 2),
-        transformBoard(original, mirrorAxisY = true, rotateCount = 3),
-
-        transformBoard(original, mirrorAxisX = true, mirrorAxisY = true),
-        transformBoard(original, mirrorAxisX = true, mirrorAxisY = true, rotateCount = 1),
-        transformBoard(original, mirrorAxisX = true, mirrorAxisY = true, rotateCount = 2),
-        transformBoard(original, mirrorAxisX = true, mirrorAxisY = true, rotateCount = 3),
-        )
+    val result = mutableListOf<List<Boolean>>()
+    for (mirrorAxisX in listOf(true, false))
+        for (mirrorAxisY in listOf(true, false))
+            for (rotateCount in 0..3)
+                result.add(transformBoard(original,rotateCount, mirrorAxisX, mirrorAxisY))
+    return result
 }
 
 fun transformBoard(
