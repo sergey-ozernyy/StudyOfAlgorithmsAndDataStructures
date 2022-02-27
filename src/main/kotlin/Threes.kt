@@ -112,24 +112,24 @@ fun deleteDublicates(resultList: MutableList<List<Boolean>>): MutableList<List<B
 
 fun getRotations(original: List<Boolean>): List<List<Boolean>> {
     return listOf(
-        rotate90(original),
-        rotate90(rotate90(original)),
-        rotate90(rotate90(rotate90(original))),
+        rotateBoard90(original),
+        rotateBoard90(rotateBoard90(original)),
+        rotateBoard90(rotateBoard90(rotateBoard90(original))),
 
         mirrorBoardAxisY(original),
-        rotate90(mirrorBoardAxisY(original)),
-        rotate90(rotate90(mirrorBoardAxisY(original))),
-        rotate90(rotate90(rotate90(mirrorBoardAxisY(original)))),
+        rotateBoard90(mirrorBoardAxisY(original)),
+        rotateBoard90(rotateBoard90(mirrorBoardAxisY(original))),
+        rotateBoard90(rotateBoard90(rotateBoard90(mirrorBoardAxisY(original)))),
 
         mirrorBoardAxisX(original),
-        rotate90(mirrorBoardAxisX(original)),
-        rotate90(rotate90(mirrorBoardAxisX(original))),
-        rotate90(rotate90(rotate90(mirrorBoardAxisX(original)))),
+        rotateBoard90(mirrorBoardAxisX(original)),
+        rotateBoard90(rotateBoard90(mirrorBoardAxisX(original))),
+        rotateBoard90(rotateBoard90(rotateBoard90(mirrorBoardAxisX(original)))),
 
         mirrorBoardAxisY(mirrorBoardAxisX(original)),
-        rotate90(mirrorBoardAxisY(mirrorBoardAxisX(original))),
-        rotate90(rotate90(mirrorBoardAxisY(mirrorBoardAxisX(original)))),
-        rotate90(rotate90(rotate90(mirrorBoardAxisY(mirrorBoardAxisX(original))))),
+        rotateBoard90(mirrorBoardAxisY(mirrorBoardAxisX(original))),
+        rotateBoard90(rotateBoard90(mirrorBoardAxisY(mirrorBoardAxisX(original)))),
+        rotateBoard90(rotateBoard90(rotateBoard90(mirrorBoardAxisY(mirrorBoardAxisX(original))))),
     )
 }
 
@@ -147,6 +147,16 @@ fun mirrorBoard(original: List<Boolean>, axisX: Boolean): List<Boolean> {
         if (original[i]) {
             var targetIndex: Int = mirrorCell(i, axisX)
             result[targetIndex] = original[i]
+        }
+    }
+    return result
+}
+
+fun rotateBoard90(original: List<Boolean>): List<Boolean> {
+    val result = original.map { false }.toList().toMutableList()
+    for (i in 0..original.size - 1) {
+        if (original[i]) {
+            result[rotateCell90(i)] = original[i]
         }
     }
     return result
@@ -170,16 +180,6 @@ fun rotateCell90(i: Int): Int {
     val (zx, zy) = getZeroCoords(rcx, rcy)
     val ri = zy * N + zx
     return ri
-}
-
-fun rotate90(original: List<Boolean>): List<Boolean> {
-    val result = original.map { false }.toList().toMutableList()
-    for (i in 0..original.size - 1) {
-        if (original[i]) {
-            result[rotateCell90(i)] = original[i]
-        }
-    }
-    return result
 }
 
 fun getZeroCoords(rcx: Int, rcy: Int): Pair<Int, Int> {

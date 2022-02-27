@@ -17,7 +17,7 @@ internal class ThreesKtTest {
         putQueen(expectedBoard, 46)
 
         // Act
-        val rotateBoard = rotate90(originalBoard)
+        val rotateBoard = rotateBoard90(originalBoard)
 
         // Assert
         assertArrayEquals(
