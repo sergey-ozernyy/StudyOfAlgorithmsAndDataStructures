@@ -112,25 +112,34 @@ fun deleteDublicates(resultList: MutableList<List<Boolean>>): MutableList<List<B
 
 fun getRotations(original: List<Boolean>): List<List<Boolean>> {
     return listOf(
-        rotateBoard90(original),
-        rotateBoard90(rotateBoard90(original)),
-        rotateBoard90(rotateBoard90(rotateBoard90(original))),
+        transformBoard(original, 1),
+        transformBoard(original, 2),
+        transformBoard(original, 3),
 
-        mirrorBoardAxisY(original),
-        rotateBoard90(mirrorBoardAxisY(original)),
-        rotateBoard90(rotateBoard90(mirrorBoardAxisY(original))),
-        rotateBoard90(rotateBoard90(rotateBoard90(mirrorBoardAxisY(original)))),
+        transformBoard(original, mirrorX = true),
+        transformBoard(original, mirrorX = true, rotateCount = 1),
+        transformBoard(original, mirrorX = true, rotateCount = 2),
+        transformBoard(original, mirrorX = true, rotateCount = 3),
 
-        mirrorBoardAxisX(original),
-        rotateBoard90(mirrorBoardAxisX(original)),
-        rotateBoard90(rotateBoard90(mirrorBoardAxisX(original))),
-        rotateBoard90(rotateBoard90(rotateBoard90(mirrorBoardAxisX(original)))),
+        transformBoard(original, mirrorY = true),
+        transformBoard(original, mirrorY = true, rotateCount = 1),
+        transformBoard(original, mirrorY = true, rotateCount = 2),
+        transformBoard(original, mirrorY = true, rotateCount = 3),
 
-        mirrorBoardAxisY(mirrorBoardAxisX(original)),
-        rotateBoard90(mirrorBoardAxisY(mirrorBoardAxisX(original))),
-        rotateBoard90(rotateBoard90(mirrorBoardAxisY(mirrorBoardAxisX(original)))),
-        rotateBoard90(rotateBoard90(rotateBoard90(mirrorBoardAxisY(mirrorBoardAxisX(original))))),
-    )
+        transformBoard(original, mirrorX = true, mirrorY = true),
+        transformBoard(original, mirrorX = true, mirrorY = true, rotateCount = 1),
+        transformBoard(original, mirrorX = true, mirrorY = true, rotateCount = 2),
+        transformBoard(original, mirrorX = true, mirrorY = true, rotateCount = 3),
+        )
+}
+
+fun transformBoard(
+    original: List<Boolean>,
+    rotateCount: Int = 0,
+    mirrorX: Boolean = false,
+    mirrorY: Boolean = false
+): List<Boolean> {
+
 }
 
 fun mirrorBoardAxisY(original: List<Boolean>): List<Boolean> {
