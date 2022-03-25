@@ -9,22 +9,44 @@ import kotlin.test.assertEquals
 internal class BracketSequences1KtTest {
 
     @ParameterizedTest
-    @MethodSource("getArgumentsForCheckBalanceSequence")
+    @MethodSource("getArgumentsCheckBalanceSequence")
     fun checkBalanceSequence(sequence:String, expected: Boolean) {
         //Arrange
         val bracketSequence = sequence.toCharArray()
 
         //Act and Assert
-        assertEquals(expected, checkBalanceSequence(bracketSequence))
+        assertEquals(expected, checkSequenceBalance(bracketSequence))
     }
+
+    @ParameterizedTest
+    @MethodSource("getArgumentsCheckComplexSequenceBalance")
+    fun checkComplexSequenceBalance(sequence:String, expected: Boolean) {
+        //Arrange
+        val bracketSequence = sequence.toCharArray()
+
+        //Act and Assert
+        assertEquals(expected, checkComplexSequenceBalance(bracketSequence))
+    }
+
 
     private companion object {
         @JvmStatic
-        fun getArgumentsForCheckBalanceSequence():Stream<Arguments> = Stream.of(
+        fun getArgumentsCheckBalanceSequence():Stream<Arguments> = Stream.of(
             Arguments.of("()()", true),
             Arguments.of("(())", true),
             Arguments.of("(()", false),
             Arguments.of("))(", false),
         )
+
+        @JvmStatic
+        fun getArgumentsCheckComplexSequenceBalance():Stream<Arguments> = Stream.of(
+            Arguments.of("{}[]()", true),
+            Arguments.of("([{}])", true),
+            Arguments.of("(()]", false),
+            Arguments.of("(()(()()))", true),
+            Arguments.of("{[}]", false),
+        )
     }
+
+
 }
