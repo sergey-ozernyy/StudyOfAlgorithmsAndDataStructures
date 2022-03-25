@@ -8,7 +8,7 @@ internal class BattleshipKtTest {
 
     @ParameterizedTest
     @MethodSource("getCountShipsArguments")
-    fun getCountShips(board: List<List<Int>>, expected: Int) {
+    fun getCountShips(board: MutableList<MutableList<Int>>, expected: Int) {
         // Arrange
         count = 0
         
@@ -21,26 +21,26 @@ internal class BattleshipKtTest {
         @JvmStatic
         fun getCountShipsArguments(): Stream<Arguments> = Stream.of(
             Arguments.of(
-                listOf(
-                    listOf(0, 0),
-                    listOf(0, 0)
+                mutableListOf(
+                    mutableListOf(0, 0),
+                    mutableListOf(0, 0)
                 ),
                 0
             ),
             Arguments.of(
-                listOf(
-                    listOf(1, 0, 0),
-                    listOf(1, 0, 1),
-                    listOf(1, 0, 0),
+                mutableListOf(
+                    mutableListOf(1, 0, 0),
+                    mutableListOf(1, 0, 1),
+                    mutableListOf(1, 0, 0),
                 ),
                 2
             ),
             Arguments.of(
-                listOf(
-                    listOf(1, 1, 0, 1),
-                    listOf(0, 0, 0, 1),
-                    listOf(1, 1, 0, 1),
-                    listOf(0, 0, 0, 1),
+                mutableListOf(
+                    mutableListOf(1, 1, 0, 1),
+                    mutableListOf(0, 0, 0, 1),
+                    mutableListOf(1, 1, 0, 1),
+                    mutableListOf(0, 0, 0, 1),
                 ),
                 3
             ),
