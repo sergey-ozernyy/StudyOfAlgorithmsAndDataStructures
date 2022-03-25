@@ -1,3 +1,5 @@
+package algo_challenge
+
 /**
 Есть матрица NxN, состоящая из 0 и 1
 и отражающая расположения кораблей на поле для морского боя.
@@ -13,7 +15,7 @@
 
 fun main() {
     println(getCountShips(testBoard))
-//    calculateShips2()
+//    AlgoChallenge.calculateShips2()
 }
 
 val testBoard = mutableListOf(
@@ -30,7 +32,7 @@ fun getCountShips(board: MutableList<MutableList<Int>>): Int {
         for (j in 0..board.size - 1) {
             if (board[i][j] != 0) {
                 //Первый способ:
-//                calculateShips1(i = i, j = j, board)
+//                AlgoChallenge.calculateShips1(i = i, j = j, board)
                 //Второй способ:
                 count++
                 calculateShips2(i = i, j = j, board = board)
