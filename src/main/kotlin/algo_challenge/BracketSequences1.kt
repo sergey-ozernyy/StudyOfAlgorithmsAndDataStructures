@@ -69,8 +69,7 @@ fun checkComplexSequenceBalance(startArray: CharArray): Boolean {
             }
             '}' -> {
                 result['c'] = result['c']!! - 1
-                val element = lastOpen.removeLast()
-                if (element != 'c') return false
+                if (lastOpen.removeLast() != 'c') return false
             }
         }
 
