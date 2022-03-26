@@ -50,3 +50,27 @@ internal class BracketSequences1KtTest {
 
 
 }
+
+internal class BracketSequences2KtTest{
+
+    @ParameterizedTest
+    @MethodSource("getArgumentsCheckBalanceAndFixBracket")
+    fun checkBalanceAndFixBracket(sequence:String, expected: Int) {
+        //Arrange
+        val bracketSequence = sequence.toCharArray()
+
+        //Act and Assert
+        assertEquals(expected, checkBalanceAndFixBracket(bracketSequence))
+    }
+
+    private companion object {
+        @JvmStatic
+        fun getArgumentsCheckBalanceAndFixBracket():Stream<Arguments> = Stream.of(
+            Arguments.of("((", 1),
+            Arguments.of(")())", 0),
+            Arguments.of("()))", 1),
+            Arguments.of("()))", 2),
+            Arguments.of(")(", -1),
+        )
+    }
+}

@@ -1,4 +1,9 @@
 package algo_challenge
+import java.util.*
+
+fun main() {
+    println(checkComplexSequenceBalance("([{}])".toCharArray()))
+}
 
 /**
 «Правильная скобочная последовательность»
@@ -30,10 +35,6 @@ fun checkSequenceBalance(startArray: CharArray): Boolean {
 “(()]” - false
  */
 
-fun main() {
-    println(checkComplexSequenceBalance("{[}]".toCharArray()))
-}
-
 fun checkComplexSequenceBalance(startArray: CharArray): Boolean {
 
     val result = mutableMapOf<Char, Int>(
@@ -42,33 +43,34 @@ fun checkComplexSequenceBalance(startArray: CharArray): Boolean {
         'c' to 0  // - {}
     )
 
-    var lastOpen:Char = ' '
+    val lastOpen: Deque<Char> = LinkedList<Char>()
 
     for (char in startArray) {
         when (char) {
             '(' -> {
                 result['a'] = result['a']!! + 1
-                lastOpen = 'a'
+                lastOpen.add('a')
             }
             '[' -> {
                 result['b'] = result['b']!! + 1
-                lastOpen = 'b'
+                lastOpen.add('b')
             }
             '{' -> {
                 result['c'] = result['c']!! + 1
-                lastOpen = 'c'
+                lastOpen.add('c')
             }
             ')' -> {
                 result['a'] = result['a']!! - 1
-                if (lastOpen != 'a') return false
+                if (lastOpen.removeLast() != 'a') return false
             }
             ']' -> {
                 result['b'] = result['b']!! - 1
-                if (lastOpen != 'b') return false
+                if (lastOpen.removeLast() != 'b') return false
             }
             '}' -> {
                 result['c'] = result['c']!! - 1
-                if (lastOpen != 'c') return false
+                val element = lastOpen.removeLast()
+                if (element != 'c') return false
             }
         }
 
@@ -79,4 +81,23 @@ fun checkComplexSequenceBalance(startArray: CharArray): Boolean {
     }
 
     return  result.all { it.value == 0 }
+}
+
+/**
+Дана несбалансированная последовательность круглых скобок.
+Вернуть индекс скобки, заменив которую на противоположную последовательность станет сбалансированной. Если последовательность нельзя сделать сбалансированной заменой всего одной скобки, то вернуть -1.
+
+Примеры:
+«((« -> 1
+«)())» -> 0
+«()))» —> 1 или 2
+«)(« -> -1
+ */
+
+fun checkBalanceAndFixBracket(startArray: CharArray):Int{
+    var count = 0
+    for (i in 0..startArray.size-1){
+        if (startArray[i] == '(') count++
+    }
+    return 1
 }
