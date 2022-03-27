@@ -36,51 +36,24 @@ fun checkSequenceBalance(startArray: CharArray): Boolean {
  */
 
 fun checkComplexSequenceBalance(startArray: CharArray): Boolean {
-
-    val result = mutableMapOf<Char, Int>(
-        'a' to 0, // - ()
-        'b' to 0, // - []
-        'c' to 0  // - {}
+    val brackets = mapOf(
+        '(' to ')',
+        '[' to ']',
+        '{' to '}',
     )
-
     val lastOpen: Deque<Char> = LinkedList<Char>()
 
     for (char in startArray) {
-        when (char) {
-            '(' -> {
-                result['a'] = result['a']!! + 1
-                lastOpen.add('a')
-            }
-            '[' -> {
-                result['b'] = result['b']!! + 1
-                lastOpen.add('b')
-            }
-            '{' -> {
-                result['c'] = result['c']!! + 1
-                lastOpen.add('c')
-            }
-            ')' -> {
-                result['a'] = result['a']!! - 1
-                if (lastOpen.removeLast() != 'a') return false
-            }
-            ']' -> {
-                result['b'] = result['b']!! - 1
-                if (lastOpen.removeLast() != 'b') return false
-            }
-            '}' -> {
-                result['c'] = result['c']!! - 1
-                if (lastOpen.removeLast() != 'c') return false
-            }
+        if (brackets.keys.contains(char)) {
+            lastOpen.add(char)
+        } else {
+            if (brackets[lastOpen.removeLast()] != char) return false
         }
-
-        if (result['a']!! < 0) return false
-        if (result['b']!! < 0) return false
-        if (result['c']!! < 0) return false
-
     }
 
-    return  result.all { it.value == 0 }
+    return lastOpen.size == 0
 }
+
 
 /**
 Дана несбалансированная последовательность круглых скобок.
